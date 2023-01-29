@@ -33,9 +33,9 @@ function getWeather() {
 
 
     //set user's input to 'city' for url
-    var userCity = $('#search-input').val();
+    // var userCity = $('#search-input').val();
     // variable to store url
-    var city = userCity;
+    // var city = userCity;
     var cityURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
     // get weather information for a city
     $.ajax({
@@ -64,13 +64,11 @@ function getWeather() {
             var imgURL = "http://openweathermap.org/img/wn/" + iconValue + ".png";
             var iconImg = $('<img>').attr('src', imgURL);
             $('#imgContainer').append(iconImg);
-            console.log(weatherURL);
 
             //convert temp and display new temp, wind speed and humidity
             var tempKelvin = weatherResponse.list[0].main.temp;
             var tempCelcius = tempKelvin - 273.15;
             var temp = tempCelcius.toFixed(2);
-            console.log(temp);
             var wind = weatherResponse.list[0].wind.speed;
             var humidity = weatherResponse.list[0].main.humidity;
 
@@ -146,7 +144,51 @@ $('#search-button').on('click', function (e) {
     localStorage.setItem('city', JSON.stringify(cityHistory));
     $('#imgContainer').empty();
     fiveForecastDiv.empty();
-    // getHistory();
+    getHistory();
     getWeather();
 });
+
+// create buttons for search history
+var historyContainer = $('#history');
+
+// function to get history from local storage
+function getHistory() {
+    historyContainer.empty();
+
+    for (let i = 0; i < cityHistory.length; i++) {
+        var rowEl = $('<row>');
+        var btnEl = $('<button>').text(cityHistory[i]);
+
+        rowEl.addClass('row histBtnRow');
+        btnEl.addClass('btn btn-outline-secondary histBtn');
+        btnEl.attr('type', 'button');
+
+        historyContainer.prepend(rowEl);
+        rowEl.append(btnEl);
+    } if (!city) {
+        return;
+    }
+
+    // show data when history button clicked
+    $('.histBtn').on('click', function (e) {
+        e.preventDefault();
+        city = $(this).text();
+        $('#imgContainer').empty();
+        fiveForecastDiv.empty();
+        getWeather();
+    });
+};
+
+
+function init() {
+    var cityHistoryList = JSON.parse(localStorage.getItem('city'));
+
+    if (cityHistoryList !== null) {
+        cityHistory = cityHistoryList;
+    }
+    getHistory();
+    getWeather();
+};
+
+init();
 
