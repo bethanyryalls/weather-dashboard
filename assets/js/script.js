@@ -194,6 +194,12 @@ function getHistory() {
 $('#clearHistory').on('click', function(e) {
     e.preventDefault();
     localStorage.clear();
+    $('.list-group').empty();
+    localStorage.removeItem('city');
+    cityHistory = [];
+    city = [];
+    cityHistory.push(city.trim());
+    localStorage.setItem('city', JSON.stringify(cityHistory));
 })
 
 
