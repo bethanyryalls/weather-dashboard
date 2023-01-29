@@ -165,19 +165,25 @@ function getHistory() {
 
         historyContainer.prepend(rowEl);
         rowEl.append(btnEl);
-    } if (!city) {
-        return;
-    }
+    } 
+    
 
     // show data when history button clicked
-    $('.histBtn').on('click', function (e) {
+    $('.row').on('click', function (e) {
         e.preventDefault();
         city = $(this).text();
         $('#imgContainer').empty();
         fiveForecastDiv.empty();
         getWeather();
     });
+
+    if (!city) {
+        return;
+    }
+
 };
+
+
 
 
 function init() {
@@ -187,8 +193,7 @@ function init() {
         cityHistory = cityHistoryList;
     }
     getHistory();
-    getWeather();
+    // getWeather();
 };
 
 init();
-
