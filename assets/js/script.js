@@ -155,7 +155,9 @@ var historyContainer = $('#history');
 function getHistory() {
     historyContainer.empty();
 
-    for (let i = 0; i < cityHistory.length; i++) {
+    let start = Math.max(cityHistory.length -6, 0);
+
+    for (let i = start; i < cityHistory.length; i++) {
         var rowEl = $('<row>');
         var btnEl = $('<button>').text(cityHistory[i]);
 
@@ -169,7 +171,7 @@ function getHistory() {
     
 
     // show data when history button clicked
-    $('.row').on('click', function (e) {
+    $('.histBtn').on('click', function (e) {
         e.preventDefault();
         city = $(this).text();
         $('#imgContainer').empty();
