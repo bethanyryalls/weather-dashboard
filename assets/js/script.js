@@ -6,6 +6,10 @@ var cardTodayName = document.getElementById('cardTodayName');
 var cardTodayDate = document.getElementById('cardTodayDate');
 var todayIcon = document.getElementById('todayIcon');
 var cardTodayBody = document.getElementById('cardTodayBody');
+var todayUl = document.getElementById('todayUl');
+var todayTemp = $('#todayTemp');
+var todayWind = $('#todayWind');
+var todayHumidity = $('#todayHumidity');
 
 
 //variable to store city name
@@ -35,7 +39,7 @@ $('#search-button').on('click', function (e) {
     var cityURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
 
     //function to get lon and lat
-    function getLongLat() {
+    function getWeather() {
         $.ajax({
             url: cityURL,
             method: "GET"
@@ -57,11 +61,25 @@ $('#search-button').on('click', function (e) {
                 var iconImg = $('<img>').attr('src', imgURL);
                 $('#imgContainer').append(iconImg);
                 console.log(weatherURL);
+
+                var tempKelvin = weatherResponse.list[0].main.temp;
+                var tempCelcius = tempKelvin - 273.15;
+                var temp = tempCelcius.toFixed(2);
+                console.log(temp);
+                var wind = weatherResponse.list[0].wind.speed;
+                var humidity = weatherResponse.list[0].main.humidity;
+
+                todayTemp.text('Temp: ' + temp + ' °C');
+                todayWind.text('Wind : ' + wind + ' KPH');
+                todayHumidity.text('Humidity: ' + humidity + '%');
+
+
+
             })
         })
     }
 
-    getLongLat();
+    getWeather();
 
 });
 
