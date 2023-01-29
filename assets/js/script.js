@@ -158,15 +158,15 @@ function getHistory() {
     let start = Math.max(cityHistory.length -6, 0);
 
     for (let i = start; i < cityHistory.length; i++) {
-        var rowEl = $('<row>');
+        // var btnDivEl = $('<div>');
         var btnEl = $('<button>').text(cityHistory[i]);
 
-        rowEl.addClass('row histBtnRow');
-        btnEl.addClass('btn btn-outline-secondary histBtn');
+        // btnDivEl.addClass('row histBtnRow');
+        btnEl.addClass('btn btn-secondary btn-block histBtn');
         btnEl.attr('type', 'button');
 
-        historyContainer.prepend(rowEl);
-        rowEl.append(btnEl);
+        historyContainer.prepend(btnEl);
+        // btnDivEl.append(btnEl);
     } 
     
 
