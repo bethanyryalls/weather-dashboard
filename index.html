@@ -12,20 +12,21 @@
 </head>
 
 <body>
-  <header class="container-fluid text-center text-white bg-dark p-2 weather-header">
+  <header class="container-fluid text-center text-white bg-dark p-2 weather-header" style="background: rgb(0,212,255);
+  background: linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 65%, rgba(2,0,36,1) 100%);">
     <h1>Weather Dashboard</h1>
   </header>
 
   <!-- max-width for ultra wide resolutions -->
   <div class="container-fluid" style="max-width: 1400px">
     <div class="row">
-      <aside class="col-lg-3 pb-3">
+      <aside class="col-lg-3 py-3">
         <h2 id="form-heading" class="mt-1 h3 form-label">
           Search for a City:
         </h2>
         <form id="search-form" class="form">
           <div class="form-inline form-group">
-            <div class="input-group">
+            <div class="input-group w-100">
               <input class="form-input weather-search textVal w-100 p-2" type="text" id="search-input" placeholder="London"
                 aria-labelledby="form-heading" aria-controls="today forecast" />
               <div class="input-group-append btnSearch mt-3 btn-block d-flex flex-column">
@@ -38,15 +39,18 @@
           </div>
         </form>
         <div class="list-group" id="history"></div>
+        <div class="d-none" id="clearHistory">
+          <button class="btn rounded-sm btn-dark btn-block mt-3">Clear History</button>
+        </div>
       </aside>
 
       <div class="col-lg-9 pb-3">
-        <section id="today" class="mx-n3 mt-3" role="region" aria-live="polite">
+        <section id="today" class="mx-0 mt-3 d-none" role="region" aria-live="polite">
           <div class="card bg-light mb-3 p-3">
-            <div class="d-flex">
-              <h2 class="fs-1 p-2" id="cardTodayName"></h2>
-            <h3 class="fs-1 p-2" id="cardTodayDate"></h3>
-            <div class="fs-1 p-2" id="imgContainer"></div>
+            <div class="d-flex align-items-center">
+              <h2 class="fs-1 pl-2 py-2 mb-0 pr-0" id="cardTodayName"></h2>
+            <h3 class="fs-1 pl-2 py-2 mb-0 pr-0" id="cardTodayDate"></h3>
+            <div class="fs-1" id="imgContainer"></div>
             </div>
             <div class="pl-2" id="cardTodayBody">
                 <p id="todayTemp"></p>
@@ -55,7 +59,12 @@
             </div>
           </div>
         </section>
-        <section id="forecast" class="row mt-3" role="region" aria-live="polite"></section>
+        <section class="mt-4" id="forecast" role="region" aria-live="polite">
+          <div class="forecastHeading d-none">
+            <h4>5-Day Forecast:</h4>
+          </div>
+          <div class="row mx-0 mt-3" id="fiveForecastDiv"></div>
+        </section>
       </div>
     </div>
   </div>

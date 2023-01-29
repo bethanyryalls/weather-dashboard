@@ -8,7 +8,7 @@ var todayIcon = document.getElementById('todayIcon');
 var todayTemp = $('#todayTemp');
 var todayWind = $('#todayWind');
 var todayHumidity = $('#todayHumidity');
-var fiveForecastDiv = $('#forecast');
+var fiveForecastDiv = $('#fiveForecastDiv');
 
 
 //variable to store city name
@@ -57,7 +57,7 @@ function getWeather() {
         }).then(function (weatherResponse) {
             // display city name and current date
             cardTodayName.textContent = cityName;
-            cardTodayDate.textContent = currentDate;
+            cardTodayDate.textContent = '(' + currentDate + ')';
 
             // get weather icon value and display icon using url
             var iconValue = weatherResponse.list[0].weather[0].icon;
@@ -100,17 +100,17 @@ function getWeather() {
             //loop through the stored weather info and display it in bootstrap cards
             for (let i = 0; i < userForecastArray.length; i++) {
                 var forecastCard = $('<div>');
-                forecastCard.attr('class', 'card text-white bg-primary mb-2 mr-2');
+                forecastCard.attr('class', 'card text-white bg-secondary mb-2 mr-2');
                 fiveForecastDiv.append(forecastCard);
 
-                var forecastHeader = $('<div>');
-                forecastHeader.attr('class', 'card-header');
+                var forecastHeader = $('<h4>');
+                forecastHeader.attr('class', 'card-title px-3 pt-3');
                 var mDate = moment(userForecastArray[i].date).format('DD/MM/YYYY');
                 forecastHeader.text(mDate);
                 forecastCard.append(forecastHeader);
 
                 var forecastBody = $('<div>');
-                forecastBody.attr('class', 'card-body py-2');
+                forecastBody.attr('class', 'card-body pb-2 pt-0');
                 forecastCard.append(forecastBody);
 
                 var forecastIcon = $('<img>');
@@ -128,12 +128,16 @@ function getWeather() {
 
         })
     })
+    $('#search-input').val('');
 };
 
 $('#search-button').on('click', function (e) {
 
     //prevent default behaviour
     e.preventDefault();
+    $('#today').removeClass('d-none');
+    $('.forecastHeading').removeClass('d-none');
+    $('#clearHistory').removeClass('d-none');
     city = $(this).parent('.btnSearch').siblings('.textVal').val().trim();
     if (city === "") {
         return;
@@ -173,6 +177,8 @@ function getHistory() {
     // show data when history button clicked
     $('.histBtn').on('click', function (e) {
         e.preventDefault();
+        $('#today').removeClass('d-none');
+        $('.forecastHeading').removeClass('d-none');
         city = $(this).text();
         $('#imgContainer').empty();
         fiveForecastDiv.empty();
@@ -184,6 +190,11 @@ function getHistory() {
     }
 
 };
+
+$('#clearHistory').on('click', function(e) {
+    e.preventDefault();
+    localStorage.clear();
+})
 
 
 
