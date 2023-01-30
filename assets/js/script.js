@@ -38,7 +38,6 @@ function getWeather() {
             $('#cardTodayBody').hide();
             $('#forecast').hide();
             $('.errorMessage').show();
-            console.error('no response received');
             return;
         }
         //store the city's longitude and latitude
@@ -56,20 +55,24 @@ function getWeather() {
             method: "GET"
         }).then(function (weatherResponse) {
 
-            //if no data received, show error message
+            //if no data received, show error message and hide all other information
             if (weatherResponse.length === 0) {
+                $('#cardTodayName').hide();
+                $('#cardTodayDate').hide();
+                $('#cardTodayBody').hide();
+                $('#forecast').hide();
                 $('.errorMessage').show();
-                console.error('no weather response received');
                 return;
             }
 
+            //show all other information if no errors
             $('#cardTodayName').show();
             $('#cardTodayDate').show();
             $('#cardTodayBody').show();
             $('#forecast').show();
             $('#today').show();
             $('.errorMessage').hide();
-            
+
             // display city name and current date
             cardTodayName.text(cityName);
             cardTodayDate.text('(' + currentDate + ')');
@@ -182,7 +185,7 @@ $('#search-button').on('click', function (e) {
     if (localStorage.getItem('city') !== null) {
         $('#clearHistory').show();
         $('.hr').show();
-    //otherwise hide it
+        //otherwise hide it
     } else {
         $('#clearHistory').hide();
         $('.hr').hide();
@@ -213,17 +216,17 @@ function getHistory() {
     // show data when history button clicked
     $('.histBtn').on('click', function (e) {
         e.preventDefault();
+        //show containers for data
         $('#today').removeClass('d-none');
         $('.forecastHeading').removeClass('d-none');
+        //set city to the text of button
         city = $(this).text();
+        //removing existing data from containers
         $('#imgContainer').empty();
         fiveForecastDiv.empty();
+        //get the weather data using new city value
         getWeather();
     });
-
-    if (!city) {
-        return;
-    }
 
 };
 
@@ -231,13 +234,16 @@ function getHistory() {
 
 $('#clearHistory').on('click', function (e) {
     e.preventDefault();
+    //hide the clearHistory button,hr line and weather data
     $(this).hide();
     $('.hr').hide();
     $('#forecast').hide();
     $('#today').hide();
+    //clear localStorage
     localStorage.clear();
     $('.list-group').empty();
     localStorage.removeItem('city');
+    //reset city history array and city array in local storage
     cityHistory = [];
     city = [];
     cityHistory.push(city.trim());
@@ -249,24 +255,25 @@ $('#clearHistory').on('click', function (e) {
 
 
 function init() {
+    //get localStorage data and add to variable
     var cityHistoryList = JSON.parse(localStorage.getItem('city'));
 
+    //if cityHistoryList is not empty, add to cityHistory array
     if (cityHistoryList !== null) {
         cityHistory = cityHistoryList;
-    };
-
-    if (localStorage.getItem('city') !== null) {
+        //show clear history button and hr line
         $('#clearHistory').show();
         $('.hr').show();
     } else {
+        //if empty hide them
         $('#clearHistory').hide();
         $('.hr').hide();
     };
 
     getHistory();
-    // getWeather();
 };
 
+//hide error message at start
 $('.errorMessage').hide();
 
 init();
