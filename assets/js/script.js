@@ -48,7 +48,8 @@ function getWeather() {
         var cityName = lonLatResponse[0].name;
 
         // URL to get weather information using latitude and longitude
-        var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey;
+        var weatherURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey + "&units=metric";
+
 
         // get weather information using the URL
         $.ajax({
@@ -66,9 +67,9 @@ function getWeather() {
             $('#imgContainer').append(iconImg);
 
             //convert temp and display new temp, wind speed and humidity
-            var tempKelvin = weatherResponse.list[0].main.temp;
-            var tempCelcius = tempKelvin - 273.15;
-            var temp = tempCelcius.toFixed(2);
+            var temp = weatherResponse.list[0].main.temp;
+            // var tempCelcius = tempKelvin - 273.15;
+            // var temp = tempCelcius.toFixed(2);
             var wind = weatherResponse.list[0].wind.speed;
             var humidity = weatherResponse.list[0].main.humidity;
 
@@ -85,7 +86,7 @@ function getWeather() {
                 forecastObj = {
                     // store date, temp, icon, humidity and wind speed
                     date: value.dt_txt.split(' ')[0],
-                    temp: ((value.main.temp) - 273.15).toFixed(2),
+                    temp: value.main.temp,
                     icon: value.weather[0].icon,
                     humidity: value.main.humidity,
                     wind: value.wind.speed
@@ -118,7 +119,7 @@ function getWeather() {
                 forecastIcon.attr('src', 'https://openweathermap.org/img/wn/' + userForecastArray[i].icon + '.png');
                 forecastBody.append(forecastIcon);
 
-                var forecastTemp = $('<p>').text('Temperature: ' + userForecastArray[i].temp + '°C');
+                var forecastTemp = $('<p>').text('Temperature: ' + userForecastArray[i].temp.toFixed(2) + '°C');
                 forecastBody.append(forecastTemp);
                 var forecastWind = $('<p>').text('Wind: ' + userForecastArray[i].wind + 'KPH');
                 forecastBody.append(forecastWind);
@@ -137,7 +138,7 @@ $('#search-button').on('click', function (e) {
     e.preventDefault();
     $('#today').removeClass('d-none');
     $('.forecastHeading').removeClass('d-none');
-    $('#clearHistory').removeClass('d-none');
+    // $('#clearHistory').removeClass('d-none');
     city = $(this).parent('.btnSearch').siblings('.textVal').val().trim();
     if (city === "") {
         return;
@@ -150,6 +151,14 @@ $('#search-button').on('click', function (e) {
     fiveForecastDiv.empty();
     getHistory();
     getWeather();
+
+    if (localStorage.getItem('city') !== null) {
+        $('#clearHistory').show();
+        $('.hr').show();
+    } else {
+        $('#clearHistory').hide();
+        $('.hr').hide();
+    };
 });
 
 // create buttons for search history
@@ -191,8 +200,12 @@ function getHistory() {
 
 };
 
+
+
 $('#clearHistory').on('click', function(e) {
     e.preventDefault();
+    $(this).hide();
+    $('.hr').hide();
     localStorage.clear();
     $('.list-group').empty();
     localStorage.removeItem('city');
@@ -200,7 +213,8 @@ $('#clearHistory').on('click', function(e) {
     city = [];
     cityHistory.push(city.trim());
     localStorage.setItem('city', JSON.stringify(cityHistory));
-})
+    
+});
 
 
 
@@ -210,9 +224,20 @@ function init() {
 
     if (cityHistoryList !== null) {
         cityHistory = cityHistoryList;
-    }
+    };
+
+    if (localStorage.getItem('city') !== null) {
+        $('#clearHistory').show();
+        $('.hr').show();
+    } else {
+        $('#clearHistory').hide();
+        $('.hr').hide();
+    };
+
     getHistory();
     // getWeather();
 };
+
+
 
 init();
