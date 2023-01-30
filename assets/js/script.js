@@ -24,7 +24,7 @@ var city;
 function getWeather() {
 
     // variable to store url
-    var cityURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
+    var cityURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
 
     // get lon and lat for inputted city
     $.ajax({
@@ -79,7 +79,7 @@ function getWeather() {
 
             // get weather icon value and display icon using url
             var iconValue = weatherResponse.list[0].weather[0].icon;
-            var imgURL = "https://openweathermap.org/img/wn/" + iconValue + ".png";
+            var imgURL = "http://openweathermap.org/img/wn/" + iconValue + ".png";
             var iconImg = $('<img>').attr('src', imgURL);
             $('#imgContainer').append(iconImg);
 
@@ -183,7 +183,9 @@ $('#search-button').on('click', function (e) {
 
     //if city in localStorage show the clearHistory button and hr
     if (localStorage.getItem('city') !== null) {
+        $('#clearHistory').removeClass('d-none');
         $('#clearHistory').show();
+        $('.hr').removeClass('d-none');
         $('.hr').show();
         //otherwise hide it
     } else {
@@ -243,12 +245,8 @@ $('#clearHistory').on('click', function (e) {
     localStorage.clear();
     $('.list-group').empty();
     localStorage.removeItem('city');
-    //reset city history array and city array in local storage
+    //reset city history array so doesn't show twice
     cityHistory = [];
-    city.empty();
-    cityHistory.push(city);
-    localStorage.setItem('city', JSON.stringify(cityHistory));
-
 });
 
 
@@ -262,7 +260,9 @@ function init() {
     if (cityHistoryList !== null) {
         cityHistory = cityHistoryList;
         //show clear history button and hr line
+        $('#clearHistory').removeClass('d-none');
         $('#clearHistory').show();
+        $('.hr').removeClass('d-none');
         $('.hr').show();
     } else {
         //if empty hide them
