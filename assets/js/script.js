@@ -24,7 +24,7 @@ var city;
 function getWeather() {
 
     // variable to store url
-    var cityURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
+    var cityURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
 
     // get lon and lat for inputted city
     $.ajax({
