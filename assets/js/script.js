@@ -245,8 +245,8 @@ $('#clearHistory').on('click', function (e) {
     localStorage.removeItem('city');
     //reset city history array and city array in local storage
     cityHistory = [];
-    city = [];
-    cityHistory.push(city.trim());
+    city.empty();
+    cityHistory.push(city);
     localStorage.setItem('city', JSON.stringify(cityHistory));
 
 });
