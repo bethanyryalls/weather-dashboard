@@ -1,7 +1,7 @@
 //variable to store APIKey
 var APIKey = "5ff58d1744fba6ecdad3c248282449e9";
 
-
+// variables to store elements
 var cardTodayName = $('#cardTodayName');
 var cardTodayDate = $('#cardTodayDate');
 var todayIcon = $('#todayIcon');
