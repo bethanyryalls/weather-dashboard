@@ -24,7 +24,7 @@ var city;
 function getWeather() {
 
     // variable to store url
-    var cityURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
+    var cityURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=" + 1 + "&appid=" + APIKey;
 
     // get lon and lat for inputted city
     $.ajax({
@@ -79,7 +79,7 @@ function getWeather() {
 
             // get weather icon value and display icon using url
             var iconValue = weatherResponse.list[0].weather[0].icon;
-            var imgURL = "http://openweathermap.org/img/wn/" + iconValue + ".png";
+            var imgURL = "https://openweathermap.org/img/wn/" + iconValue + ".png";
             var iconImg = $('<img>').attr('src', imgURL);
             $('#imgContainer').append(iconImg);
 
