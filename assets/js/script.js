@@ -79,7 +79,7 @@ function getWeather() {
 
             // get weather icon value and display icon using url
             var iconValue = weatherResponse.list[0].weather[0].icon;
-            var imgURL = "http://openweathermap.org/img/wn/" + iconValue + ".png";
+            var imgURL = "https://openweathermap.org/img/wn/" + iconValue + ".png";
             var iconImg = $('<img>').attr('src', imgURL);
             $('#imgContainer').append(iconImg);
 
